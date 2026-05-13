@@ -1,5 +1,6 @@
 import os
 from io import BytesIO
+import base64
 import streamlit as st
 import pickle
 import requests
@@ -109,6 +110,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+# Helper to display responsive images without Streamlit deprecation warnings
+
+def render_responsive_image(img_data):
+    if isinstance(img_data, bytes):
+        encoded = base64.b64encode(img_data).decode()
+        src = f"data:image/png;base64,{encoded}"
+    else:
+        src = img_data
+
+    st.markdown(
+        f'<img src="{src}" style="width:100%; height:auto; border-radius:15px;" />',
+        unsafe_allow_html=True,
+    )
+
+
 # TOP MOVIES SECTION
 st.subheader("🔥 Top 5 Mostly Watched Movies")
 
@@ -136,7 +152,7 @@ for i in range(5):
 
         st.markdown('<div class="movie-card">', unsafe_allow_html=True)
 
-        st.image(movie_posters[i], use_column_width=True)
+        render_responsive_image(movie_posters[i])
 
         st.markdown(
             f'<div class="movie-title">{movie_names[i]}</div>',
@@ -309,10 +325,7 @@ if st.button("🎥 Your Next Movie"):
                         unsafe_allow_html=True
                     )
 
-                    st.image(
-                        recommended_movies_posters[i],
-                        use_column_width=True
-                    )
+                    render_responsive_image(recommended_movies_posters[i])
 
                     st.markdown(
                         f'<div class="movie-title">{recommended_movies[i]}</div>',
