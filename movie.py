@@ -136,7 +136,7 @@ for i in range(5):
 
         st.markdown('<div class="movie-card">', unsafe_allow_html=True)
 
-        st.image(movie_posters[i], width=200)
+        st.image(movie_posters[i], use_column_width=True)
 
         st.markdown(
             f'<div class="movie-title">{movie_names[i]}</div>',
@@ -311,7 +311,7 @@ if st.button("🎥 Your Next Movie"):
 
                     st.image(
                         recommended_movies_posters[i],
-                        width=200
+                        use_column_width=True
                     )
 
                     st.markdown(
